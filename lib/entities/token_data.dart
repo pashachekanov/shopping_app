@@ -1,0 +1,15 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'token_data.freezed.dart';
+part 'token_data.g.dart';
+
+@freezed
+abstract class TokenData with _$TokenData {
+  const factory TokenData({
+    @Default('') String access_token,
+    @Default('') String refresh_token,
+  }) = _TokenData;
+
+  factory TokenData.fromJson(Map<String, dynamic> json) =>
+      _$TokenDataFromJson(json);
+}
