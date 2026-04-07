@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -17,14 +16,35 @@ part 'login_state.dart';
 @injectable
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit(
-    this.router, {
-    required this.service,
-  }) : super(
-         LoginState.initialized(),
-       );
+    this.service,
+    this.router,
+  ) : super(
+        LoginState.initialized(),
+      ) {
+    checkCreds();
+  }
 
-  final AppRouter router;
   final LoginService service;
+  final AppRouter router;
+
+  Future<void> checkCreds() async {
+    final isUserLogged = await service.isUserLogged();
+
+    isUserLogged.fold(
+      (l) => emit(
+        state.copyWith(
+          isUserLogged: false,
+        ),
+      ),
+      (r) {
+        if (r == true) {
+          emit(state.copyWith(isUserLogged: r));
+        } else {
+          return;
+        }
+      },
+    );
+  }
 
   Future<void> performLogin() async {
     Either<Failure, void>? failureOrSuccess;
@@ -44,7 +64,7 @@ class LoginCubit extends Cubit<LoginState> {
         password: (state as LoginInitial).password.getOrCrash(),
       );
 
-      await service.performLoginUsecase(params);
+      failureOrSuccess = await service.performLoginUsecase(params);
     }
     emit(
       state.copyWith(
@@ -54,15 +74,32 @@ class LoginCubit extends Cubit<LoginState> {
     );
   }
 
-  Future<void> openLoginForm(
-    StackRouter router,
-  ) => router.push(const LoginView());
+  Future<void> emailChanged(String value) async {
+    emit(
+      state.copyWith(
+        emailAddress: EmailAddress(value),
+        loginResult: null,
+      ),
+    );
+  }
 
-  void goBack(
-    StackRouter router,
-  ) => router.pop();
+  Future<void> passwordChanged(String value) async {
+    emit(
+      state.copyWith(
+        password: Password(value),
+        loginResult: null,
+      ),
+    );
+  }
 
-  Future<void> openHome(
-    StackRouter router,
-  ) => router.replace(const LoginRoute()); //todo: add
+  Future<void> passwordVisibilityToggled() async {
+    emit(
+      state.copyWith(
+        isPasswordShown: !state.isPasswordShown,
+        loginResult: null,
+      ),
+    );
+  }
+
+  Future<void> openHome() => router.replace(const HomeRoute());
 }

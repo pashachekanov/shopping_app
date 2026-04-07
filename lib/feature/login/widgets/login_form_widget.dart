@@ -6,6 +6,8 @@ import 'package:shopping_app/domain_models/email_address.dart';
 import 'package:shopping_app/domain_models/failure.dart';
 import 'package:shopping_app/domain_models/password.dart';
 import 'package:shopping_app/feature/login/cubit/login_cubit.dart';
+import 'package:shopping_app/localization/shopping_app_localization.dart';
+import 'package:shopping_app/routes/router.gr.dart';
 import 'package:shopping_app/style/theme.dart';
 import 'package:toastification/toastification.dart';
 
@@ -31,18 +33,25 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
           } else if (failure is PlatformFailure) {
             errorMessage = failure.platformResponse;
           } else {
-            errorMessage = 'Sorry, something went wrong, please try again.';
+            errorMessage = ShoppingAppLocalization.of(
+              context,
+            ).general_error_message;
           }
           toastification.show(
             context: context,
             type: ToastificationType.success,
             style: ToastificationStyle.flat,
             autoCloseDuration: const Duration(seconds: 5),
-            description: RichText(text: TextSpan(text: errorMessage)),
-            alignment: Alignment.topCenter,
+            description: RichText(
+              text: TextSpan(
+                text: errorMessage,
+                style: const TextStyle(color: Colors.black),
+              ),
+            ),
+            alignment: Alignment.bottomCenter,
             direction: TextDirection.ltr,
             animationDuration: const Duration(milliseconds: 300),
-            icon: const Icon(Icons.check),
+            icon: const Icon(Icons.info_outline),
             backgroundColor: Colors.white,
             foregroundColor: Colors.black,
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
@@ -62,9 +71,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
           );
         },
         (_) async {
-          await context.read<LoginCubit>().openLoginForm(
-            context.router,
-          );
+          await context.router.replaceAll([const HomeRoute()]);
         },
       ),
       builder: (context, state) {
@@ -78,13 +85,10 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    'Welcome back! Glad to see you, Again!',
-                    style:
-                        Theme.of(
-                          context,
-                        ).textTheme.headlineSmall!.copyWith(
-                          fontFamily: 'MyCustomFont',
-                        ),
+                    ShoppingAppLocalization.of(context).login_welcome,
+                    style: TextTheme.of(
+                      context,
+                    ).titleMedium!.copyWith(fontSize: 30),
                   ),
                   const SizedBox(height: 32),
                   _buildEmailTextFormField(
@@ -101,8 +105,8 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                   ),
                   const SizedBox(height: 30),
                   ElevatedButton(
-                    onPressed: () {},
-                    child: const Text('Login'),
+                    onPressed: () => context.read<LoginCubit>().performLogin(),
+                    child: Text(ShoppingAppLocalization.of(context).login),
                   ),
                 ],
               ),
@@ -125,10 +129,8 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
     autovalidateMode: AutovalidateMode.onUserInteraction,
     decoration: InputDecoration(
       filled: true,
-      labelText: 'Enter your username',
-      labelStyle: const TextStyle(
-        fontFamily: 'MyCustomFont',
-      ),
+      labelText: ShoppingAppLocalization.of(context).login_label_email,
+
       floatingLabelStyle: state.emailAddress.value.isLeft() || isError
           ? Theme.of(context).textTheme.bodySmall!.copyWith(color: primaryRed)
           : Theme.of(
@@ -138,10 +140,10 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
           ? primaryRed.withValues(alpha: 0.2)
           : iconBorderColor,
     ),
-    onChanged: (value) {},
-    // context.read<LoginBloc>().add(LoginEvent.emailChanged(value)),
-    validator: (email) =>
-        EmailAddress(email ?? '').isValid() ? null : 'Email error',
+    onChanged: (value) => context.read<LoginCubit>().emailChanged(value),
+    validator: (email) => EmailAddress(email ?? '').isValid()
+        ? null
+        : ShoppingAppLocalization.of(context).login_label_email_error,
     onFieldSubmitted: (_) {
       _emailFocusNode.unfocus();
       _passwordFocusNode.requestFocus();
@@ -161,10 +163,8 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
     autovalidateMode: AutovalidateMode.onUserInteraction,
     decoration: InputDecoration(
       filled: true,
-      labelText: 'Enter your password',
-      labelStyle: const TextStyle(
-        fontFamily: 'MyCustomFont',
-      ),
+      labelText: ShoppingAppLocalization.of(context).login_label_password,
+
       errorText: isError ? errorMessage : null,
       errorMaxLines: 5,
       floatingLabelStyle: state.password.value.isLeft() || isError
@@ -176,7 +176,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
           ? primaryRed.withValues(alpha: 0.2)
           : iconBorderColor,
       suffixIcon: IconButton(
-        onPressed: () {},
+        onPressed: () => context.read<LoginCubit>().passwordVisibilityToggled(),
         padding: const EdgeInsets.all(16),
         icon: SvgPicture.asset(
           'assets/svg/password_icon.svg',
@@ -189,14 +189,13 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
         ),
       ),
     ),
+
     onFieldSubmitted: (_) {
       _passwordFocusNode.unfocus();
-      // context.read<LoginBloc>().add(
-      //   const LoginEvent.loginWithEmailAndPasswordPressed(),
-      // );
     },
-    onChanged: (value) {},
-    // context.read<LoginBloc>().add(LoginEvent.passwordChanged(value)),
-    validator: (pwd) => Password(pwd ?? '').isValid() ? null : 'Error',
+    onChanged: (value) => context.read<LoginCubit>().passwordChanged(value),
+    validator: (pwd) => Password(pwd ?? '').isValid()
+        ? null
+        : ShoppingAppLocalization.of(context).login_label_password_error,
   );
 }

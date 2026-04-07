@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shopping_app/feature/login/cubit/login_cubit.dart';
 import 'package:shopping_app/injection/injection.dart';
+import 'package:shopping_app/localization/shopping_app_localization.dart';
+import 'package:shopping_app/routes/router.gr.dart';
 
 @RoutePage()
 class LoginPage extends StatelessWidget {
@@ -12,7 +14,16 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => BlocProvider(
     create: (context) => getIt<LoginCubit>(),
-    child: BlocBuilder<LoginCubit, LoginState>(
+    child: BlocConsumer<LoginCubit, LoginState>(
+      listener: (context, state) {
+        if (state.isUserLogged == true) {
+          context.router.replaceAll(
+            [
+              const HomeRoute(),
+            ],
+          );
+        }
+      },
       builder: (context, state) => Scaffold(
         body: Stack(
           fit: StackFit.expand,
@@ -32,11 +43,11 @@ class LoginPage extends StatelessWidget {
                   height: 58,
                 ),
                 const SizedBox(height: 17),
-                const Text(
-                  'Fake Store',
-                  style: TextStyle(
-                    fontFamily: 'MyCustomFont',
-                  ),
+                Text(
+                  ShoppingAppLocalization.of(context).app_title,
+                  style: TextTheme.of(
+                    context,
+                  ).titleMedium!.copyWith(fontSize: 28),
                 ),
                 const SizedBox(height: 40),
                 Padding(
@@ -45,18 +56,16 @@ class LoginPage extends StatelessWidget {
                     width: double.infinity,
                     height: 48,
                     child: ElevatedButton(
-                      onPressed: () => context.read<LoginCubit>().openLoginForm(
-                        context.router,
+                      onPressed: () => context.router.push(
+                        LoginView(cubit: context.read<LoginCubit>()),
                       ),
-                      child: const Text('Login'),
+                      child: Text(ShoppingAppLocalization.of(context).login),
                     ),
                   ),
                 ),
                 const SizedBox(height: 166),
               ],
             ),
-
-            // SvgPicture.asset('assets/background.svg'),
           ],
         ),
       ),

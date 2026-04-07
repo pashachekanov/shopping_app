@@ -5,8 +5,8 @@ import 'package:shopping_app/injection/injection.dart';
 
 const env = String.fromEnvironment('ENV', defaultValue: Environment.prod);
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  configureDependencies(environment: env);
+  await configureDependencies(environment: env);
   runApp(const AppWidget());
 }

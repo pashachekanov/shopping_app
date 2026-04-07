@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TokenData {
 
- String get access_token; String get refresh_token;
+@JsonKey(name: 'access_token') String get accessToken;@JsonKey(name: 'refresh_token') String get refreshToken;
 /// Create a copy of TokenData
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $TokenDataCopyWith<TokenData> get copyWith => _$TokenDataCopyWithImpl<TokenData>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TokenData&&(identical(other.access_token, access_token) || other.access_token == access_token)&&(identical(other.refresh_token, refresh_token) || other.refresh_token == refresh_token));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TokenData&&(identical(other.accessToken, accessToken) || other.accessToken == accessToken)&&(identical(other.refreshToken, refreshToken) || other.refreshToken == refreshToken));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,access_token,refresh_token);
+int get hashCode => Object.hash(runtimeType,accessToken,refreshToken);
 
 @override
 String toString() {
-  return 'TokenData(access_token: $access_token, refresh_token: $refresh_token)';
+  return 'TokenData(accessToken: $accessToken, refreshToken: $refreshToken)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $TokenDataCopyWith<$Res>  {
   factory $TokenDataCopyWith(TokenData value, $Res Function(TokenData) _then) = _$TokenDataCopyWithImpl;
 @useResult
 $Res call({
- String access_token, String refresh_token
+@JsonKey(name: 'access_token') String accessToken,@JsonKey(name: 'refresh_token') String refreshToken
 });
 
 
@@ -65,10 +65,10 @@ class _$TokenDataCopyWithImpl<$Res>
 
 /// Create a copy of TokenData
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? access_token = null,Object? refresh_token = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? accessToken = null,Object? refreshToken = null,}) {
   return _then(_self.copyWith(
-access_token: null == access_token ? _self.access_token : access_token // ignore: cast_nullable_to_non_nullable
-as String,refresh_token: null == refresh_token ? _self.refresh_token : refresh_token // ignore: cast_nullable_to_non_nullable
+accessToken: null == accessToken ? _self.accessToken : accessToken // ignore: cast_nullable_to_non_nullable
+as String,refreshToken: null == refreshToken ? _self.refreshToken : refreshToken // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
@@ -154,10 +154,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String access_token,  String refresh_token)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'access_token')  String accessToken, @JsonKey(name: 'refresh_token')  String refreshToken)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TokenData() when $default != null:
-return $default(_that.access_token,_that.refresh_token);case _:
+return $default(_that.accessToken,_that.refreshToken);case _:
   return orElse();
 
 }
@@ -175,10 +175,10 @@ return $default(_that.access_token,_that.refresh_token);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String access_token,  String refresh_token)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'access_token')  String accessToken, @JsonKey(name: 'refresh_token')  String refreshToken)  $default,) {final _that = this;
 switch (_that) {
 case _TokenData():
-return $default(_that.access_token,_that.refresh_token);case _:
+return $default(_that.accessToken,_that.refreshToken);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -195,10 +195,10 @@ return $default(_that.access_token,_that.refresh_token);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String access_token,  String refresh_token)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'access_token')  String accessToken, @JsonKey(name: 'refresh_token')  String refreshToken)?  $default,) {final _that = this;
 switch (_that) {
 case _TokenData() when $default != null:
-return $default(_that.access_token,_that.refresh_token);case _:
+return $default(_that.accessToken,_that.refreshToken);case _:
   return null;
 
 }
@@ -210,11 +210,11 @@ return $default(_that.access_token,_that.refresh_token);case _:
 @JsonSerializable()
 
 class _TokenData implements TokenData {
-  const _TokenData({this.access_token = '', this.refresh_token = ''});
+  const _TokenData({@JsonKey(name: 'access_token') this.accessToken = '', @JsonKey(name: 'refresh_token') this.refreshToken = ''});
   factory _TokenData.fromJson(Map<String, dynamic> json) => _$TokenDataFromJson(json);
 
-@override@JsonKey() final  String access_token;
-@override@JsonKey() final  String refresh_token;
+@override@JsonKey(name: 'access_token') final  String accessToken;
+@override@JsonKey(name: 'refresh_token') final  String refreshToken;
 
 /// Create a copy of TokenData
 /// with the given fields replaced by the non-null parameter values.
@@ -229,16 +229,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TokenData&&(identical(other.access_token, access_token) || other.access_token == access_token)&&(identical(other.refresh_token, refresh_token) || other.refresh_token == refresh_token));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TokenData&&(identical(other.accessToken, accessToken) || other.accessToken == accessToken)&&(identical(other.refreshToken, refreshToken) || other.refreshToken == refreshToken));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,access_token,refresh_token);
+int get hashCode => Object.hash(runtimeType,accessToken,refreshToken);
 
 @override
 String toString() {
-  return 'TokenData(access_token: $access_token, refresh_token: $refresh_token)';
+  return 'TokenData(accessToken: $accessToken, refreshToken: $refreshToken)';
 }
 
 
@@ -249,7 +249,7 @@ abstract mixin class _$TokenDataCopyWith<$Res> implements $TokenDataCopyWith<$Re
   factory _$TokenDataCopyWith(_TokenData value, $Res Function(_TokenData) _then) = __$TokenDataCopyWithImpl;
 @override @useResult
 $Res call({
- String access_token, String refresh_token
+@JsonKey(name: 'access_token') String accessToken,@JsonKey(name: 'refresh_token') String refreshToken
 });
 
 
@@ -266,10 +266,10 @@ class __$TokenDataCopyWithImpl<$Res>
 
 /// Create a copy of TokenData
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? access_token = null,Object? refresh_token = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? accessToken = null,Object? refreshToken = null,}) {
   return _then(_TokenData(
-access_token: null == access_token ? _self.access_token : access_token // ignore: cast_nullable_to_non_nullable
-as String,refresh_token: null == refresh_token ? _self.refresh_token : refresh_token // ignore: cast_nullable_to_non_nullable
+accessToken: null == accessToken ? _self.accessToken : accessToken // ignore: cast_nullable_to_non_nullable
+as String,refreshToken: null == refreshToken ? _self.refreshToken : refreshToken // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }

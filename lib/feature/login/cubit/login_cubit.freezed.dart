@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$LoginState {
 
- EmailAddress get emailAddress; Password get password; bool get isLoading; bool get isPasswordShown; bool get sendResult; String get phone; String get email; Either<Failure, void>? get loginResult;
+ EmailAddress get emailAddress; Password get password; bool get isLoading; bool get isPasswordShown; bool get sendResult; bool get isUserLogged; String get phone; String get email; Either<Failure, void>? get loginResult;
 /// Create a copy of LoginState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $LoginStateCopyWith<LoginState> get copyWith => _$LoginStateCopyWithImpl<LoginSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginState&&(identical(other.emailAddress, emailAddress) || other.emailAddress == emailAddress)&&(identical(other.password, password) || other.password == password)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isPasswordShown, isPasswordShown) || other.isPasswordShown == isPasswordShown)&&(identical(other.sendResult, sendResult) || other.sendResult == sendResult)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.email, email) || other.email == email)&&(identical(other.loginResult, loginResult) || other.loginResult == loginResult));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginState&&(identical(other.emailAddress, emailAddress) || other.emailAddress == emailAddress)&&(identical(other.password, password) || other.password == password)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isPasswordShown, isPasswordShown) || other.isPasswordShown == isPasswordShown)&&(identical(other.sendResult, sendResult) || other.sendResult == sendResult)&&(identical(other.isUserLogged, isUserLogged) || other.isUserLogged == isUserLogged)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.email, email) || other.email == email)&&(identical(other.loginResult, loginResult) || other.loginResult == loginResult));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,emailAddress,password,isLoading,isPasswordShown,sendResult,phone,email,loginResult);
+int get hashCode => Object.hash(runtimeType,emailAddress,password,isLoading,isPasswordShown,sendResult,isUserLogged,phone,email,loginResult);
 
 @override
 String toString() {
-  return 'LoginState(emailAddress: $emailAddress, password: $password, isLoading: $isLoading, isPasswordShown: $isPasswordShown, sendResult: $sendResult, phone: $phone, email: $email, loginResult: $loginResult)';
+  return 'LoginState(emailAddress: $emailAddress, password: $password, isLoading: $isLoading, isPasswordShown: $isPasswordShown, sendResult: $sendResult, isUserLogged: $isUserLogged, phone: $phone, email: $email, loginResult: $loginResult)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $LoginStateCopyWith<$Res>  {
   factory $LoginStateCopyWith(LoginState value, $Res Function(LoginState) _then) = _$LoginStateCopyWithImpl;
 @useResult
 $Res call({
- EmailAddress emailAddress, Password password, bool isLoading, bool isPasswordShown, bool sendResult, String phone, String email, Either<Failure, void>? loginResult
+ EmailAddress emailAddress, Password password, bool isLoading, bool isPasswordShown, bool sendResult, bool isUserLogged, String phone, String email, Either<Failure, void>? loginResult
 });
 
 
@@ -62,13 +62,14 @@ class _$LoginStateCopyWithImpl<$Res>
 
 /// Create a copy of LoginState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? emailAddress = null,Object? password = null,Object? isLoading = null,Object? isPasswordShown = null,Object? sendResult = null,Object? phone = null,Object? email = null,Object? loginResult = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? emailAddress = null,Object? password = null,Object? isLoading = null,Object? isPasswordShown = null,Object? sendResult = null,Object? isUserLogged = null,Object? phone = null,Object? email = null,Object? loginResult = freezed,}) {
   return _then(_self.copyWith(
 emailAddress: null == emailAddress ? _self.emailAddress : emailAddress // ignore: cast_nullable_to_non_nullable
 as EmailAddress,password: null == password ? _self.password : password // ignore: cast_nullable_to_non_nullable
 as Password,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,isPasswordShown: null == isPasswordShown ? _self.isPasswordShown : isPasswordShown // ignore: cast_nullable_to_non_nullable
 as bool,sendResult: null == sendResult ? _self.sendResult : sendResult // ignore: cast_nullable_to_non_nullable
+as bool,isUserLogged: null == isUserLogged ? _self.isUserLogged : isUserLogged // ignore: cast_nullable_to_non_nullable
 as bool,phone: null == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
 as String,email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as String,loginResult: freezed == loginResult ? _self.loginResult : loginResult // ignore: cast_nullable_to_non_nullable
@@ -157,10 +158,10 @@ return initial(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( EmailAddress emailAddress,  Password password,  bool isLoading,  bool isPasswordShown,  bool sendResult,  String phone,  String email,  Either<Failure, void>? loginResult)?  initial,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( EmailAddress emailAddress,  Password password,  bool isLoading,  bool isPasswordShown,  bool sendResult,  bool isUserLogged,  String phone,  String email,  Either<Failure, void>? loginResult)?  initial,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case LoginInitial() when initial != null:
-return initial(_that.emailAddress,_that.password,_that.isLoading,_that.isPasswordShown,_that.sendResult,_that.phone,_that.email,_that.loginResult);case _:
+return initial(_that.emailAddress,_that.password,_that.isLoading,_that.isPasswordShown,_that.sendResult,_that.isUserLogged,_that.phone,_that.email,_that.loginResult);case _:
   return orElse();
 
 }
@@ -178,10 +179,10 @@ return initial(_that.emailAddress,_that.password,_that.isLoading,_that.isPasswor
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( EmailAddress emailAddress,  Password password,  bool isLoading,  bool isPasswordShown,  bool sendResult,  String phone,  String email,  Either<Failure, void>? loginResult)  initial,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( EmailAddress emailAddress,  Password password,  bool isLoading,  bool isPasswordShown,  bool sendResult,  bool isUserLogged,  String phone,  String email,  Either<Failure, void>? loginResult)  initial,}) {final _that = this;
 switch (_that) {
 case LoginInitial():
-return initial(_that.emailAddress,_that.password,_that.isLoading,_that.isPasswordShown,_that.sendResult,_that.phone,_that.email,_that.loginResult);case _:
+return initial(_that.emailAddress,_that.password,_that.isLoading,_that.isPasswordShown,_that.sendResult,_that.isUserLogged,_that.phone,_that.email,_that.loginResult);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -198,10 +199,10 @@ return initial(_that.emailAddress,_that.password,_that.isLoading,_that.isPasswor
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( EmailAddress emailAddress,  Password password,  bool isLoading,  bool isPasswordShown,  bool sendResult,  String phone,  String email,  Either<Failure, void>? loginResult)?  initial,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( EmailAddress emailAddress,  Password password,  bool isLoading,  bool isPasswordShown,  bool sendResult,  bool isUserLogged,  String phone,  String email,  Either<Failure, void>? loginResult)?  initial,}) {final _that = this;
 switch (_that) {
 case LoginInitial() when initial != null:
-return initial(_that.emailAddress,_that.password,_that.isLoading,_that.isPasswordShown,_that.sendResult,_that.phone,_that.email,_that.loginResult);case _:
+return initial(_that.emailAddress,_that.password,_that.isLoading,_that.isPasswordShown,_that.sendResult,_that.isUserLogged,_that.phone,_that.email,_that.loginResult);case _:
   return null;
 
 }
@@ -213,7 +214,7 @@ return initial(_that.emailAddress,_that.password,_that.isLoading,_that.isPasswor
 
 
 class LoginInitial implements LoginState {
-  const LoginInitial({required this.emailAddress, required this.password, required this.isLoading, required this.isPasswordShown, required this.sendResult, required this.phone, required this.email, this.loginResult});
+  const LoginInitial({required this.emailAddress, required this.password, required this.isLoading, required this.isPasswordShown, required this.sendResult, required this.isUserLogged, required this.phone, required this.email, this.loginResult});
   
 
 @override final  EmailAddress emailAddress;
@@ -221,6 +222,7 @@ class LoginInitial implements LoginState {
 @override final  bool isLoading;
 @override final  bool isPasswordShown;
 @override final  bool sendResult;
+@override final  bool isUserLogged;
 @override final  String phone;
 @override final  String email;
 @override final  Either<Failure, void>? loginResult;
@@ -235,16 +237,16 @@ $LoginInitialCopyWith<LoginInitial> get copyWith => _$LoginInitialCopyWithImpl<L
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginInitial&&(identical(other.emailAddress, emailAddress) || other.emailAddress == emailAddress)&&(identical(other.password, password) || other.password == password)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isPasswordShown, isPasswordShown) || other.isPasswordShown == isPasswordShown)&&(identical(other.sendResult, sendResult) || other.sendResult == sendResult)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.email, email) || other.email == email)&&(identical(other.loginResult, loginResult) || other.loginResult == loginResult));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginInitial&&(identical(other.emailAddress, emailAddress) || other.emailAddress == emailAddress)&&(identical(other.password, password) || other.password == password)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isPasswordShown, isPasswordShown) || other.isPasswordShown == isPasswordShown)&&(identical(other.sendResult, sendResult) || other.sendResult == sendResult)&&(identical(other.isUserLogged, isUserLogged) || other.isUserLogged == isUserLogged)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.email, email) || other.email == email)&&(identical(other.loginResult, loginResult) || other.loginResult == loginResult));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,emailAddress,password,isLoading,isPasswordShown,sendResult,phone,email,loginResult);
+int get hashCode => Object.hash(runtimeType,emailAddress,password,isLoading,isPasswordShown,sendResult,isUserLogged,phone,email,loginResult);
 
 @override
 String toString() {
-  return 'LoginState.initial(emailAddress: $emailAddress, password: $password, isLoading: $isLoading, isPasswordShown: $isPasswordShown, sendResult: $sendResult, phone: $phone, email: $email, loginResult: $loginResult)';
+  return 'LoginState.initial(emailAddress: $emailAddress, password: $password, isLoading: $isLoading, isPasswordShown: $isPasswordShown, sendResult: $sendResult, isUserLogged: $isUserLogged, phone: $phone, email: $email, loginResult: $loginResult)';
 }
 
 
@@ -255,7 +257,7 @@ abstract mixin class $LoginInitialCopyWith<$Res> implements $LoginStateCopyWith<
   factory $LoginInitialCopyWith(LoginInitial value, $Res Function(LoginInitial) _then) = _$LoginInitialCopyWithImpl;
 @override @useResult
 $Res call({
- EmailAddress emailAddress, Password password, bool isLoading, bool isPasswordShown, bool sendResult, String phone, String email, Either<Failure, void>? loginResult
+ EmailAddress emailAddress, Password password, bool isLoading, bool isPasswordShown, bool sendResult, bool isUserLogged, String phone, String email, Either<Failure, void>? loginResult
 });
 
 
@@ -272,13 +274,14 @@ class _$LoginInitialCopyWithImpl<$Res>
 
 /// Create a copy of LoginState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? emailAddress = null,Object? password = null,Object? isLoading = null,Object? isPasswordShown = null,Object? sendResult = null,Object? phone = null,Object? email = null,Object? loginResult = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? emailAddress = null,Object? password = null,Object? isLoading = null,Object? isPasswordShown = null,Object? sendResult = null,Object? isUserLogged = null,Object? phone = null,Object? email = null,Object? loginResult = freezed,}) {
   return _then(LoginInitial(
 emailAddress: null == emailAddress ? _self.emailAddress : emailAddress // ignore: cast_nullable_to_non_nullable
 as EmailAddress,password: null == password ? _self.password : password // ignore: cast_nullable_to_non_nullable
 as Password,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,isPasswordShown: null == isPasswordShown ? _self.isPasswordShown : isPasswordShown // ignore: cast_nullable_to_non_nullable
 as bool,sendResult: null == sendResult ? _self.sendResult : sendResult // ignore: cast_nullable_to_non_nullable
+as bool,isUserLogged: null == isUserLogged ? _self.isUserLogged : isUserLogged // ignore: cast_nullable_to_non_nullable
 as bool,phone: null == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
 as String,email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as String,loginResult: freezed == loginResult ? _self.loginResult : loginResult // ignore: cast_nullable_to_non_nullable

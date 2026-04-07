@@ -4,17 +4,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shopping_app/feature/login/cubit/login_cubit.dart';
 import 'package:shopping_app/feature/login/widgets/login_form_widget.dart';
-import 'package:shopping_app/injection/injection.dart';
 import 'package:shopping_app/style/theme.dart';
 import 'package:shopping_app/widgets/loading_view.dart';
 
 @RoutePage()
 class LoginView extends StatelessWidget {
-  const LoginView({super.key});
+  const LoginView({required this.cubit, super.key});
+
+  final LoginCubit cubit;
 
   @override
   Widget build(BuildContext context) => BlocProvider(
-    create: (context) => getIt<LoginCubit>(),
+    create: (context) => cubit,
     child: BlocBuilder<LoginCubit, LoginState>(
       builder: (context, state) => Scaffold(
         body: GestureDetector(
@@ -33,9 +34,7 @@ class LoginView extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    onPressed: () => context.read<LoginCubit>().goBack(
-                      context.router,
-                    ),
+                    onPressed: () => context.router.pop(),
                     icon: SvgPicture.asset(
                       'assets/svg/arrow_back.svg',
                       height: 14.86,
@@ -47,7 +46,7 @@ class LoginView extends StatelessWidget {
                     ),
                   ),
                   IgnorePointer(
-                    ignoring: (state as LoginInitial).isLoading,
+                    ignoring: state.isLoading,
                     child: const SingleChildScrollView(
                       child: LoginFormWidget(),
                     ),

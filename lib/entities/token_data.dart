@@ -6,8 +6,8 @@ part 'token_data.g.dart';
 @freezed
 abstract class TokenData with _$TokenData {
   const factory TokenData({
-    @Default('') String access_token,
-    @Default('') String refresh_token,
+    @JsonKey(name: 'access_token') @Default('') String accessToken,
+    @JsonKey(name: 'refresh_token') @Default('') String refreshToken,
   }) = _TokenData;
 
   factory TokenData.fromJson(Map<String, dynamic> json) =>

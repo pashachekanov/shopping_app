@@ -8,6 +8,7 @@ abstract class LoginState with _$LoginState {
     required bool isLoading,
     required bool isPasswordShown,
     required bool sendResult,
+    required bool isUserLogged,
     required String phone,
     required String email,
     Either<Failure, void>? loginResult,
@@ -19,6 +20,7 @@ abstract class LoginState with _$LoginState {
     isLoading: false,
     isPasswordShown: false,
     sendResult: false,
+    isUserLogged: false,
     phone: '',
     email: '',
   );
