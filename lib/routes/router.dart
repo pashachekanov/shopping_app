@@ -5,7 +5,11 @@ import 'package:shopping_app/routes/router.gr.dart';
 class AppRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => [
-    AutoRoute(page: LoginRoute.page, initial: true),
+    AutoRoute(
+      page: LoginRoute.page,
+      initial: true,
+    ),
     AutoRoute(page: LoginView.page),
+    AutoRoute(page: HomeRoute.page),
   ];
 }
