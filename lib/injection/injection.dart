@@ -5,5 +5,5 @@ import 'package:shopping_app/injection/injection.config.dart';
 final GetIt getIt = GetIt.instance;
 
 @InjectableInit(preferRelativeImports: true)
-void configureDependencies({String? environment}) =>
+Future<void> configureDependencies({String? environment}) async =>
     getIt.init(environment: environment);

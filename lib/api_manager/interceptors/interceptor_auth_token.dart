@@ -25,7 +25,7 @@ class InterceptorAuthToken extends QueuedInterceptor {
     if (!options.headers.containsValue(urlEncodedHeader)) {
       try {
         token = await localDataSource.getToken();
-        options.headers['Authorization'] = 'Bearer ${token.access_token}';
+        options.headers['Authorization'] = 'Bearer ${token.accessToken}';
       } on Exception {
         print('No local token stored');
         await localDataSource.clearSession();
@@ -46,7 +46,7 @@ class InterceptorAuthToken extends QueuedInterceptor {
     final dynamic responseData = err.response?.data;
     final statusCode = err.response?.statusCode ?? 0;
     if ((statusCode == 401 || statusCode == 405) &&
-        !err.requestOptions.path.contains('/token')) {
+        !err.requestOptions.path.contains('/auth/login')) {
       return handler.reject(
         DioException(
           error: ServerException(

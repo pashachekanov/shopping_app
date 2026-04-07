@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
+import 'package:shopping_app/api_manager/constants.dart';
+import 'package:shopping_app/api_manager/interceptors/interceptor_auth_token.dart';
 import 'package:shopping_app/injection/injection.dart';
-import 'package:shopping_app/service/constants.dart';
-import 'package:shopping_app/service/interceptors/interceptor_auth_token.dart';
 
 @module
 abstract class ApiModule {

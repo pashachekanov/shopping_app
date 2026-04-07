@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
+import 'package:shopping_app/entities/products.dart';
 import 'package:shopping_app/entities/token_data.dart';
-import 'package:shopping_app/entities/token_request.dart';
 
 part 'api_client.g.dart';
 
@@ -14,5 +14,14 @@ abstract class ApiClient {
 
   @POST('/auth/login')
   @FormUrlEncoded()
-  Future<TokenData> login({@Body() required TokenRequest body});
+  Future<TokenData> login({@Body() required Map<String, dynamic> body});
+
+  @GET('/products')
+  Future<List<Products>> getProducts();
+
+  @GET('/products?offset={offset}&limit={pageSize}')
+  Future<List<Products>> getProductsByChunks({
+    @Path('offset') required int offset,
+    @Path('pageSize') required int pageSize,
+  });
 }

@@ -14,6 +14,13 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
+import '../api_manager/api_client.dart' as _i878;
+import '../api_manager/api_module.dart' as _i971;
+import '../api_manager/api_service.dart' as _i1065;
+import '../api_manager/api_service_impl.dart' as _i460;
+import '../api_manager/interceptors/interceptor_auth_token.dart' as _i393;
+import '../feature/home/cubit/home_cubit.dart' as _i459;
+import '../feature/home/service/home_service.dart' as _i114;
 import '../feature/login/cubit/login_cubit.dart' as _i442;
 import '../feature/login/service/login_service.dart' as _i518;
 import '../local_datasource/local_datasource.dart' as _i255;
@@ -25,14 +32,13 @@ import '../remote_datasource/remote_datasource.dart' as _i597;
 import '../remote_datasource/remote_datasource_impl.dart' as _i450;
 import '../repository/repository.dart' as _i1035;
 import '../repository/repository_impl.dart' as _i663;
+import '../repository/usecases/get_products_by_chunks_usecase.dart' as _i739;
+import '../repository/usecases/get_products_usecase.dart' as _i566;
+import '../repository/usecases/is_user_logged.dart' as _i612;
+import '../repository/usecases/logout_usecase.dart' as _i284;
 import '../repository/usecases/perform_login_usecase.dart' as _i583;
 import '../routes/router.dart' as _i393;
 import '../routes/routes_module.dart' as _i1058;
-import '../service/api_client.dart' as _i163;
-import '../service/api_module.dart' as _i782;
-import '../service/api_service.dart' as _i906;
-import '../service/api_service_impl.dart' as _i544;
-import '../service/interceptors/interceptor_auth_token.dart' as _i153;
 
 const String _prod = 'prod';
 
@@ -51,13 +57,10 @@ extension GetItInjectableX on _i174.GetIt {
       preResolve: true,
     );
     gh.lazySingleton<_i393.AppRouter>(() => routesModule.appRouter);
-    gh.factory<_i906.ApiService>(() => _i544.ApiServiceImpl());
-    gh.factory<_i597.RemoteDataSource>(
-      () => _i450.RemoteDataSourceImpl(apiService: gh<_i906.ApiService>()),
-    );
     gh.factory<_i935.SharedPreferencesService>(
       () => _i587.SharedPreferencesServiceImpl(gh<_i460.SharedPreferences>()),
     );
+    gh.factory<_i1065.ApiService>(() => _i460.ApiServiceImpl());
     gh.factory<_i255.LocalDataSource>(
       () => _i364.LocalDataSourceImpl(gh<_i935.SharedPreferencesService>()),
     );
@@ -69,8 +72,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i361.Dio>(
       () => apiModule.dio(gh<String>(instanceName: 'BaseUrl')),
     );
-    gh.factory<_i163.ApiClient>(
-      () => _i163.ApiClient(
+    gh.factory<_i597.RemoteDataSource>(
+      () => _i450.RemoteDataSourceImpl(apiService: gh<_i1065.ApiService>()),
+    );
+    gh.factory<_i878.ApiClient>(
+      () => _i878.ApiClient(
         gh<_i361.Dio>(),
         baseUrl: gh<String>(instanceName: 'BaseUrl'),
       ),
@@ -81,20 +87,39 @@ extension GetItInjectableX on _i174.GetIt {
         localDataSource: gh<_i255.LocalDataSource>(),
       ),
     );
-    gh.factoryParam<_i153.InterceptorAuthToken, _i361.Dio?, dynamic>(
-      (dio, _) => _i153.InterceptorAuthToken(dio, gh<_i255.LocalDataSource>()),
+    gh.factoryParam<_i393.InterceptorAuthToken, _i361.Dio?, dynamic>(
+      (dio, _) => _i393.InterceptorAuthToken(dio, gh<_i255.LocalDataSource>()),
+    );
+    gh.factory<_i739.GetNotificationsUsecase>(
+      () => _i739.GetNotificationsUsecase(gh<_i1035.Repository>()),
+    );
+    gh.factory<_i566.GetProductsUsecase>(
+      () => _i566.GetProductsUsecase(gh<_i1035.Repository>()),
+    );
+    gh.factory<_i612.IsUserLoggedUsecase>(
+      () => _i612.IsUserLoggedUsecase(gh<_i1035.Repository>()),
+    );
+    gh.factory<_i284.LogoutUsecase>(
+      () => _i284.LogoutUsecase(gh<_i1035.Repository>()),
     );
     gh.factory<_i583.PerformLoginUsecase>(
       () => _i583.PerformLoginUsecase(gh<_i1035.Repository>()),
     );
-    gh.lazySingleton<_i518.LoginService>(
-      () => _i518.LoginService(gh<_i583.PerformLoginUsecase>()),
-    );
-    gh.factory<_i442.LoginCubit>(
-      () => _i442.LoginCubit(
-        gh<_i393.AppRouter>(),
-        service: gh<_i518.LoginService>(),
+    gh.lazySingleton<_i114.HomeService>(
+      () => _i114.HomeService(
+        gh<_i566.GetProductsUsecase>(),
+        gh<_i284.LogoutUsecase>(),
       ),
+    );
+    gh.lazySingleton<_i518.LoginService>(
+      () => _i518.LoginService(
+        gh<_i583.PerformLoginUsecase>(),
+        gh<_i612.IsUserLoggedUsecase>(),
+      ),
+    );
+    gh.factory<_i459.HomeCubit>(() => _i459.HomeCubit(gh<_i114.HomeService>()));
+    gh.factory<_i442.LoginCubit>(
+      () => _i442.LoginCubit(gh<_i518.LoginService>(), gh<_i393.AppRouter>()),
     );
     return this;
   }
@@ -104,4 +129,4 @@ class _$SharedPrefsModule extends _i983.SharedPrefsModule {}
 
 class _$RoutesModule extends _i1058.RoutesModule {}
 
-class _$ApiModule extends _i782.ApiModule {}
+class _$ApiModule extends _i971.ApiModule {}
