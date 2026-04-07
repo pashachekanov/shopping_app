@@ -183,7 +183,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
           colorFilter: ColorFilter.mode(
             state.emailAddress.value.isLeft() || isError
                 ? primaryRed
-                : iconBorderColor,
+                : textHintColor,
             BlendMode.srcIn,
           ),
         ),
