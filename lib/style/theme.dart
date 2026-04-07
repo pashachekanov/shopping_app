@@ -6,8 +6,14 @@ const iconBorderColor = Color(0xFFE8ECF4);
 const primaryNeutral = Color(0xFF1E232C);
 const primaryBlack = Color(0xFF1E1E1E);
 const white = Color(0xFFFFFFFF);
-const inputBackgroundColor = Color(0xFFCCCFD4);
+const inputBackgroundColor = Color(
+  0xFFF7F8F9,
+);
 const textHintColor = Color(0xFF8391A1);
+
+const brandYellow = Color(0xFFF9E29B);
+const brandYellowDark = Color(0xFFD4A744);
+const cardBackground = Color(0xFFF2F2F2);
 
 // ===== Color scheme =====
 const _colorScheme = ColorScheme(
@@ -22,90 +28,43 @@ const _colorScheme = ColorScheme(
   onError: primaryRed,
   shadow: Color(0x7FE2E5E7),
   brightness: Brightness.light,
-  outline: Colors.white,
+  outline: primaryBlack,
 );
 
 final textTheme = const TextTheme(
-  labelLarge: TextStyle(
-    fontStyle: FontStyle.normal,
-    fontWeight: FontWeight.w700,
-    fontSize: 16,
-    color: white,
-  ),
-  displayLarge: TextStyle(
-    fontStyle: FontStyle.normal,
-    fontWeight: FontWeight.normal,
-    fontSize: 95,
-    color: white,
-  ),
-  displayMedium: TextStyle(
-    fontStyle: FontStyle.normal,
-    fontWeight: FontWeight.normal,
-    fontSize: 59,
-    color: white,
-  ),
-  displaySmall: TextStyle(
-    fontStyle: FontStyle.normal,
-    fontWeight: FontWeight.normal,
-    fontSize: 48,
-    color: white,
-  ),
   headlineMedium: TextStyle(
-    fontStyle: FontStyle.normal,
-    fontWeight: FontWeight.normal,
-    fontSize: 32,
-    color: white,
-  ),
-  headlineSmall: TextStyle(
-    fontStyle: FontStyle.normal,
+    fontFamily: 'Urbanist',
     fontWeight: FontWeight.w700,
-    fontSize: 26,
-    color: white,
+    fontSize: 30,
+    color: primaryNeutral,
+    height: 1.3,
   ),
   titleLarge: TextStyle(
-    fontStyle: FontStyle.normal,
+    fontFamily: 'Urbanist',
     fontWeight: FontWeight.w700,
-    fontSize: 21,
-    color: white,
+    fontSize: 18,
+    color: primaryNeutral,
   ),
   titleMedium: TextStyle(
-    fontStyle: FontStyle.normal,
+    fontFamily: 'Urbanist',
     fontWeight: FontWeight.w700,
     fontSize: 16,
-    color: white,
+    color: primaryBlack,
   ),
-  titleSmall: TextStyle(
-    fontStyle: FontStyle.normal,
-    fontWeight: FontWeight.w700,
+  labelLarge: TextStyle(
+    fontFamily: 'Urbanist',
+    fontWeight: FontWeight.w600,
     fontSize: 14,
-    color: white,
-  ),
-  bodyLarge: TextStyle(
-    fontStyle: FontStyle.normal,
-    fontWeight: FontWeight.w400,
-    fontSize: 14,
-    color: white,
+    color: primaryBlack,
   ),
   bodyMedium: TextStyle(
-    fontStyle: FontStyle.normal,
-    fontWeight: FontWeight.normal,
+    fontFamily: 'Urbanist',
+    fontWeight: FontWeight.w400,
     fontSize: 14,
-    color: white,
-  ),
-  bodySmall: TextStyle(
-    fontStyle: FontStyle.normal,
-    fontWeight: FontWeight.w700,
-    fontSize: 12,
-    color: white,
-  ),
-  labelSmall: TextStyle(
-    fontStyle: FontStyle.normal,
-    fontWeight: FontWeight.w500,
-    fontSize: 12,
-    color: white,
+    color: primaryNeutral1,
+    height: 1.5,
   ),
 );
-// ===== Input decoration =====
 
 final UnderlineInputBorder Function({required Color color})
 _underlineInputBorderBuilder = ({required color}) => UnderlineInputBorder(
@@ -117,20 +76,64 @@ _underlineInputBorderBuilder = ({required color}) => UnderlineInputBorder(
   ),
 );
 
-final _inputDecorationTheme = InputDecorationTheme(
-  contentPadding: const EdgeInsets.all(16),
-  labelStyle: textTheme.bodySmall!.copyWith(color: primaryNeutral),
-  border: _underlineInputBorderBuilder(color: Colors.transparent),
-  focusedBorder: _underlineInputBorderBuilder(color: Colors.transparent),
-  enabledBorder: _underlineInputBorderBuilder(color: Colors.transparent),
-  focusedErrorBorder: _underlineInputBorderBuilder(color: primaryRed),
-  errorBorder: _underlineInputBorderBuilder(color: primaryRed),
-  errorStyle: textTheme.bodySmall!.copyWith(color: primaryRed),
+// Button Theme
+final _elevatedButtonTheme = ElevatedButtonThemeData(
+  style: ElevatedButton.styleFrom(
+    backgroundColor: primaryNeutral,
+    foregroundColor: white,
+    minimumSize: const Size(double.infinity, 56),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+    textStyle: const TextStyle(
+      fontFamily: 'Urbanist',
+      fontWeight: FontWeight.w600,
+      fontSize: 16,
+    ),
+  ),
 );
-// ===== ThemeData =====
+
+final _inputDecorationTheme = InputDecorationTheme(
+  filled: true,
+  fillColor: inputBackgroundColor,
+  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+  border: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(8),
+    borderSide: const BorderSide(color: iconBorderColor),
+  ),
+  enabledBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(8),
+    borderSide: const BorderSide(color: iconBorderColor),
+  ),
+  focusedBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(8),
+    borderSide: const BorderSide(color: primaryNeutral, width: 1),
+  ),
+  hintStyle: const TextStyle(color: textHintColor, fontFamily: 'Urbanist'),
+);
+
 ThemeData lightThemeData() => ThemeData(
+  useMaterial3: true,
+  fontFamily: 'Urbanist',
   scaffoldBackgroundColor: white,
-  colorScheme: _colorScheme,
+  colorScheme: const ColorScheme.light(
+    primary: primaryNeutral,
+    secondary: brandYellow,
+    surface: white,
+    error: primaryRed,
+    onPrimary: white,
+    onSurface: primaryNeutral,
+  ),
   textTheme: textTheme,
   inputDecorationTheme: _inputDecorationTheme,
+  elevatedButtonTheme: _elevatedButtonTheme,
+  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+    selectedItemColor: primaryNeutral,
+    unselectedItemColor: textHintColor,
+    backgroundColor: white,
+    type: BottomNavigationBarType.fixed,
+    showSelectedLabels: false,
+    showUnselectedLabels: false,
+  ),
+  appBarTheme: const AppBarTheme(
+    surfaceTintColor: white,
+  ),
 );
