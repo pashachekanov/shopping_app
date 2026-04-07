@@ -1,0 +1,11 @@
+app: App
+
+app_title: Fake Store
+login: Login
+general_error_message: Sorry, something went wrong, please try again.
+login_welcome: Welcome back! Glad to see you, Again!
+home_welcome(String username): 'Welcome,$username'
+login_label_email: Enter your username
+login_label_password: Enter your password
+login_label_email_error: Email error
+login_label_password_error: Error
