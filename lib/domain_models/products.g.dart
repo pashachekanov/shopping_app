@@ -18,6 +18,7 @@ _Products _$ProductsFromJson(Map<String, dynamic> json) => _Products(
   slug: json['slug'] as String?,
   creationAt: json['creationAt'] as String?,
   updatedAt: json['updatedAt'] as String?,
+  rating: (json['rating'] as num?)?.toDouble() ?? 0.00,
 );
 
 Map<String, dynamic> _$ProductsToJson(_Products instance) => <String, dynamic>{
@@ -30,4 +31,5 @@ Map<String, dynamic> _$ProductsToJson(_Products instance) => <String, dynamic>{
   'slug': instance.slug,
   'creationAt': instance.creationAt,
   'updatedAt': instance.updatedAt,
+  'rating': instance.rating,
 };
